@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "67268ad0814f849b945eb1ab"
+  },
+  "name": "QcTrung",
+  "email": "lynguyenquoctrung@gmail.com",
+  "pass": "$2a$10$zcP1BA3tjgrEaa5RytUeoel./k89sow8Q1z02u5vvgBdPgMmTTdPe",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUWNUcnVuZyIsImlhdCI6MTczMDY0MTEyNSwiZXhwIjoxNzMwNjg0MzI1fQ.asRaV2f7ySeDk1SCmnjiRxWVApV_K66dPEiR4fhEE98",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67277c5e28222b52e9cdf90a"
+  },
+  "name": "QuocHung",
+  "email": "hung@gmail.com",
+  "pass": "$2a$10$z0eLCz/HbJKgE2QpB8y5A.sdmYYu07ynvoBXRD9UU6dMTe5/.vtcm",
+  "refreshToken": "",
+  "__v": 0
+}]

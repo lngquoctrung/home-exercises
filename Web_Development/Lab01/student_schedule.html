@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Schedule</title>
+    <style>
+
+        .header{
+            color: #121ab5;
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            padding: 10px;
+        }
+
+        .table{
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .table, .table__cell{
+            border: 1px solid black;
+        }
+
+        .table__cell{
+            padding: 7px 22px 7px 22px;
+            text-align: center;
+        }
+
+        .table__cell--upper-gyl-bg{ /* Max Yellow Green background */
+            background-color: #d9fe52;
+            text-transform: uppercase;
+        }
+
+        .table__cell--bold-upper{
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .table__cell--pb-color{ /* Palatinate Blue color */
+            color: #1f3dff;
+        }
+
+        .table__cell--empty{
+            background-color: rgb(183, 183, 183);
+        }
+
+        .table__cell--ng-bg{ /* Neon Green background */
+            background-color: #41FF1B;
+        }
+
+        /* Effection of Hover action */
+        .table__cell--empty:hover{
+            background-color: grey;
+        }
+
+        .table__cell--ng-bg:hover{
+            background-color: #b8dd32;
+        }
+
+        .table__cell--upper-gyl-bg:hover{
+            background-color: #c1e348;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Student Schedule</div>
+    <table class="table">
+        <tr class="table__row">
+            <td class="table__cell table__cell--bold-upper table__cell--pb-color">Day/Period</td>
+            <td class="table__cell table__cell--bold-upper">I</td>
+            <td class="table__cell table__cell--bold-upper">II</td>
+            <td class="table__cell table__cell--bold-upper table__cell--ng-bg" rowspan="8">Lunch</td>
+            <td class="table__cell table__cell--bold-upper">III</td>
+            <td class="table__cell table__cell--bold-upper">IV</td>
+        </tr>
+        <tr class="table__row">
+            <td class="table__cell table__cell--bold-upper table__cell--pb-color">Monday</td>
+            <td class="table__cell">Math</td>
+            <td class="table__cell">Physics</td>
+            <td class="table__cell table__cell--empty" rowspan="2" colspan="2"></td>
+        </tr>
+        <tr class="table__row">
+            <td class="table__cell table__cell--bold-upper table__cell--pb-color">Tuesday</td>
+            <td class="table__cell table__cell--upper-gyl-bg" colspan="2">Lab</td>
+        </tr>
+        <tr class="table__row">
+            <td class="table__cell table__cell--bold-upper table__cell--pb-color">Wednesday</td>
+            <td class="table__cell">History</td>
+            <td class="table__cell">Music</td>
+            <td class="table__cell table__cell--upper-gyl-bg" colspan="2">Seminar</td>
+        </tr>
+        <tr class="table__row">
+            <td class="table__cell table__cell--bold-upper table__cell--pb-color">Thursday</td>
+            <td class="table__cell">Physical Education</td>
+            <td class="table__cell">Swimming</td>
+            <td class="table__cell">Chemistry</td>
+            <td class="table__cell">Biology</td>
+        </tr>
+        <tr class="table__row">
+            <td class="table__cell table__cell--bold-upper table__cell--pb-color">Friday</td>
+            <td class="table__cell table__cell--upper-gyl-bg" colspan="2">Lab</td>
+            <td class="table__cell">Geography</td>
+            <td class="table__cell">Informatics</td>
+        </tr>
+        <tr class="table__row">
+            <td class="table__cell table__cell--bold-upper table__cell--pb-color">Saturday</td>
+            <td class="table__cell">Math</td>
+            <td class="table__cell">Physics</td>
+            <td class="table__cell table__cell--upper-gyl-bg" colspan="2">Lab</td>
+        </tr>
+        <tr class="table__row">
+            <td class="table__cell table__cell--bold-upper table__cell--pb-color">Sunday</td>
+            <td class="table__cell table__cell--empty" colspan="2"></td>
+            <td class="table__cell table__cell--empty"></td>
+            <td class="table__cell">Homework</td>
+        </tr>
+    </table>
+</body>
+</html>

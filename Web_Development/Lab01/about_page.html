@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Page</title>
+    <style>
+        .header{
+            font-weight: bold;
+            font-size: 35px;
+            text-align: center;
+        }
+
+        .main .main__text, h3{
+            margin: 25px 0px;
+            text-align: center;
+        }
+
+        .main .main__table{
+            width: 75%;
+            margin: auto;
+        }
+
+        .main__table, .table__cell{
+            border: 1px solid black;
+        }
+
+        .card .card__main{
+            padding: 7px;
+        }
+
+        .card .card__image{
+            width: 100%;
+        }
+
+        .card__main .main-card__name{
+            font-weight: bold;
+            font-size: larger;
+            margin-top: 5px;
+        }
+
+        .main-card__position{
+            font-size: 17px;
+        }
+
+        .main-card__text li{
+            padding-left: 20px;
+        }
+
+        .card__main button{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">About us page</div>
+    <div class="main">
+        <div class="main__text">
+            <div>Some text about who we are and what we do.</div>
+            <div>Resize the browser window to see that this page is responsive by the way.</div>
+        </div>
+        <h3>Our Team</h3>
+        <table class="main__table">
+            <tr>
+                <td class="table__cell">
+                    <div class="card">
+                        <img src="./images/team1.jpg" alt="" class="card__image">
+                        <div class="card__main">
+                            <div class="main-card__name">Jane Doe</div>
+                            <p class="main-card__position">CEO & Founder</p>
+                            <div class="main-card__text">
+                                Some text that describes me lorem ipsum ipsum lorem. <br>
+                                <p>Specializes in:</p>
+                                <li>Javascript</li>
+                                <li>C/C++</li>
+                                <li>Java</li>
+                            </div>
+                            <button type="button">Contact</button>
+                        </div>
+                    </div>
+                </td>
+                <td class="table__cell">
+                    <div class="card">
+                        <img src="./images/team2.jpg" alt="" class="card__image">
+                        <div class="card__main">
+                            <div class="main-card__name">Johnny Depp</div>
+                            <p class="main-card__position">Product Owner</p>
+                            <div class="main-card__text">
+                                Some text that describes me lorem ipsum ipsum lorem. <br>
+                                <p>Specializes in:</p>
+                                <li>Objective C</li>
+                                <li>Swift</li>
+                                <li>C/C++</li>
+                            </div>
+                            <button type="button">Contact</button>
+                        </div>
+                    </div>
+                </td>
+                <td class="table__cell">
+                    <div class="card">
+                        <img src="./images/team3.jpg" alt="" class="card__image">
+                        <div class="card__main">
+                            <div class="main-card__name">Luke Evans</div>
+                            <p class="main-card__position">Team Leader</p>
+                            <div class="main-card__text">
+                                Some text that describes me lorem ipsum ipsum lorem. <br>
+                                <p>Specializes in:</p>
+                                <li>C#</li>
+                                <li>Visual Basic</li>
+                                <li>Typescript</li>
+                            </div>
+                            <button type="button">Contact</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

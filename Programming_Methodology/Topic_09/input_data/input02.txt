@@ -1,0 +1,5 @@
+Print to the console: "enter a filename:".
+Read a string from the console for the filename.
+Print a menu of the algorithms you implemented, having each represented by a letter or number.
+Print to the console: "choose one of these search algorithms:".
+Read a letter or number indicating the algorithm.

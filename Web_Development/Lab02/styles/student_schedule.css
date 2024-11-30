@@ -1,0 +1,62 @@
+/* 
+    Declare some color variable.
+    Using var() when variables are used many times
+*/
+:root{
+    --interdimesional-blue: #2214c5;
+    --key-lime: #E0FF9E;
+    --medium-spring-bud: #CAE58F;
+    --light-silver: #D6D6D6;
+    --silver-sand: #C2C2C2;
+}
+
+table, td{
+    border: 1px solid black;
+}
+
+.header{
+    color: red;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: large;
+}
+
+.table{
+    margin: auto;
+    border: 3px dotted brown;
+    border-collapse: collapse;
+}
+
+.tb__cell{
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.tb__col-header{
+    color: white;
+    background-color: var(--interdimesional-blue);
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+.tb__row-header{
+    font-weight: bold;
+}
+
+.tb__cell--kl-bg{
+    color: #000;
+    background-color: var(--key-lime);
+}
+
+.tb__empty{
+    background-color: var(--light-silver);
+}
+
+/* Effect hover */
+.tb__cell--kl-bg:hover{
+    background-color: var(--medium-spring-bud);
+}
+
+.tb__empty:hover{
+    background-color: var(--silver-sand);
+}

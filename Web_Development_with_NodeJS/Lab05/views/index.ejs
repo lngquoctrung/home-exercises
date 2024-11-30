@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Danh sách sản phẩm</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container my-3">
+        <h4 class="my-5 text-primary text-center text-uppercase">Danh sách người dùng</h4>
+        <a class="btn btn-success btn-sm my-4" href="/add">Thêm người dùng</a>
+        <p>Chọn một người dùng để xem chi tiết</p>
+        <table id="user-data-table" class="table table-striped border">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ và tên</th>
+                    <th>Giới tính</th>
+                    <th>Tuổi</th>
+                    <th>Email</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Display user's information -->
+                <% locals.users.map((user, index) => { %>
+                    <tr>
+                        <td>
+                            <%= index + 1 %>
+                        </td>
+                        <td>
+                            <a href="/profile/<%= user.id %>">
+                                <%= user.fullname %>
+                            </a>
+                        </td>
+                        <td>
+                            <%= user.gender %>
+                        </td>
+                        <td>
+                            <%= user.age %>
+                        </td>
+                        <td>
+                            <%= user.email %>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Chỉnh sửa</button>
+                            <button class="btn btn-sm btn-outline-danger">Xóa</button>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+        <p>Tổng số người dùng: <strong class=" text-danger">
+                <%= locals.users.length %>
+            </strong></p>
+    </div>
+
+    <div id="flash-alert" class="alert alert-success text-center w-25 mx-auto my-3 fade" style="display: none;">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <span><%= locals.message %></span>
+    </div>
+
+    <!-- Confirm delete -->
+    <div id="delete-confirm-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Xóa người dùng</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Bạn có chắc rằng muốn xóa <strong>Trần Minh Trí</strong>?
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Xóa</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Confirm delete -->
+
+
+    <!-- Update user -->
+    <div id="update-confirm-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Cập nhật thông tin người dùng</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <!-- Alert for error messages -->
+                    <div class="alert alert-danger" style="display: none;"></div>
+
+                    <div class="form-group">
+                        <label for="name">Họ tên <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" placeholder="Nhập tên người dùng"
+                            id="name" name="name" required minlength="2">
+                    </div>
+                    <div class="form-group">
+                        <label>Giới tính <span class="text-danger">*</span></label>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input checked type="radio" class="custom-control-input" id="gender-male" name="gender">
+                            <label class="custom-control-label" for="gender-male">Nam</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="gender-female" name="gender">
+                            <label class="custom-control-label" for="gender-female">Nữ</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Tuổi <span class="text-danger">*</span></label>
+                        <input class="form-control" type="number" placeholder="Nhập tuổi"
+                            min="18" max="100" id="age" name="age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email <span class="text-danger">*</span></label>
+                        <input class="form-control" type="email" placeholder="Nhập email"
+                            id="email" name="email" required>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Cập nhật</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Update user -->
+
+
+    <script>
+        $(document).ready(() => {
+            // ===== ALERT MESSAGE =====
+            // Hide alert message
+            $('#flash-alert').hide();
+            // Display alert message
+            function displayAlert(message, isSuccess = true) {
+                const alert = $('#success-alert');
+                alert.removeClass('alert-success alert-danger')
+                    .addClass(isSuccess ? 'alert-success' : 'alert-danger')
+                    .find('#success-message').html(message);
+                
+                alert.show().addClass('show');
+                
+                // Tự động ẩn sau 3 giây
+                setTimeout(() => {
+                    alert.removeClass('show');
+                    setTimeout(() => alert.hide(), 150);
+                }, 3000);
+            }
+
+            // Update index
+            function updateRowNumbers() {
+                $('#user-data-table tbody tr').each((index, row) => {
+                    $(row).find('td:first').text(index + 1);
+                });
+            }
+
+            // ===== DELETE USER =====
+            // Add event for delete button
+            $('#user-data-table').find('.btn-outline-danger').on('click', function () {
+                const delConfirmModal = $('#delete-confirm-modal');
+                const parentTag = $(this).closest('tr');
+                // Set name of user for modal
+                delConfirmModal.find('.modal-body strong').text(parentTag.children('td:nth-child(2)').text())
+                // Pass the row that want to delete click event when delete successful
+                delConfirmModal.data('row', parentTag);
+                // Show modal
+                delConfirmModal.modal();
+            });
+
+            $('#delete-confirm-modal').on('click', '.btn-danger', function () {
+                // Get the row to delete
+                const row = $('#delete-confirm-modal').data('row');
+                // Get id user
+                const href = row.find('td:nth-child(2) a').attr('href').trim();
+                const id = href.substring(href.lastIndexOf('/') + 1);
+                // Remove click event of the deleted element
+                row.find('.btn-outline-danger').off('click');
+                // Delete the row
+                row.remove();
+                // Update index after deleted user
+                updateRowNumbers();
+                // Call api to remove user on server
+                axios.delete(`http://localhost:5050/delete/${id}`)
+                    .then(reponse => {
+                        const data = reponse.data;
+                        const username = data.data;
+                        displayAlert(`Đã xóa người dùng <strong>${username.fullname}</strong>`, true);
+                    })
+                    .catch(error => {
+                        displayAlert('Đã xảy ra lỗi', false);
+                        console.error(error);
+                    });
+                // Hide modal
+                $('#delete-confirm-modal').modal('hide');
+            });
+
+
+            // ===== UPDATE USER =====
+            // Thay thế phần xử lý sự kiện click cho nút chỉnh sửa
+            $('#user-data-table').find('.btn-outline-primary').on('click', function () {
+                // Lấy thông tin từ row được click
+                const row = $(this).closest('tr');
+                
+                // Lấy các thông tin người dùng từ row
+                const fullname = row.find('td:nth-child(2) a').text().trim();
+                const gender = row.find('td:nth-child(3)').text().trim();
+                const age = row.find('td:nth-child(4)').text().trim();
+                const email = row.find('td:nth-child(5)').text().trim();
+                
+                // Lấy ID người dùng từ href của link tên
+                const href = row.find('td:nth-child(2) a').attr('href').trim();
+                const userId = href.substring(href.lastIndexOf('/') + 1);
+
+                // Điền thông tin vào modal
+                const modal = $('#update-confirm-modal');
+                modal.find('#name').val(fullname);
+                modal.find('#age').val(age);
+                modal.find('#email').val(email);
+                
+                // Set gender radio button
+                if (gender.toLowerCase() === 'nam') {
+                    modal.find('#gender-male').prop('checked', true);
+                } else {
+                    modal.find('#gender-female').prop('checked', true);
+                }
+
+                // Lưu userId vào modal để dùng khi update
+                modal.data('userId', userId);
+
+                // Ẩn alert error nếu có
+                modal.find('.alert-danger').hide();
+
+                // Hiển thị modal
+                modal.modal('show');
+            });
+
+            // Thêm sự kiện khi đóng modal để reset form và thông báo lỗi
+            $('#update-confirm-modal').on('hidden.bs.modal', function () {
+                $(this).find('.alert-danger').hide();
+            });
+
+            // Thêm xử lý sự kiện khi click nút Cập nhật
+            function validateUpdateForm(data) {
+                const errors = [];
+                
+                // Validate fullname
+                if (!data.fullname) {
+                    errors.push('Họ tên không được để trống');
+                } else if (data.fullname.length < 2) {
+                    errors.push('Họ tên phải có ít nhất 2 ký tự');
+                }
+
+                // Validate age
+                if (!data.age) {
+                    errors.push('Tuổi không được để trống');
+                } else {
+                    const ageNum = parseInt(data.age);
+                    if (isNaN(ageNum) || ageNum < 18 || ageNum > 100) {
+                        errors.push('Tuổi phải từ 18 đến 100');
+                    }
+                }
+
+                // Validate email
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                if (!data.email) {
+                    errors.push('Email không được để trống');
+                } else if (!emailRegex.test(data.email)) {
+                    errors.push('Email không hợp lệ');
+                }
+
+                return errors;
+            }
+
+            // Sửa lại phần xử lý click nút Cập nhật
+            $('#update-confirm-modal .btn-primary').on('click', function() {
+                const modal = $('#update-confirm-modal');
+                const userId = modal.data('userId');
+                
+                // Lấy dữ liệu từ form
+                const updateData = {
+                    fullname: modal.find('#name').val().trim(),
+                    gender: modal.find('#gender-male').prop('checked') ? 'Nam' : 'Nữ',
+                    age: modal.find('#age').val().trim(),
+                    email: modal.find('#email').val().trim()
+                };
+
+                // Validate dữ liệu
+                const errors = validateUpdateForm(updateData);
+                if (errors.length > 0) {
+                    modal.find('.alert-danger')
+                        .text(errors[0])
+                        .show();
+                    return;
+                }
+
+                // Ẩn thông báo lỗi
+                modal.find('.alert-danger').hide();
+
+                // Gọi API update với URL đúng format /update/:id
+                axios.put(`/update/${userId}`, updateData)
+                    .then(response => {
+                        const updatedUser = response.data;
+                        
+                        // Cập nhật lại row trong table
+                        const row = $(`a[href="/profile/${userId}"]`).closest('tr');
+                        row.find('td:nth-child(2) a').text(updatedUser.fullname);
+                        row.find('td:nth-child(3)').text(updatedUser.gender);
+                        row.find('td:nth-child(4)').text(updatedUser.age);
+                        row.find('td:nth-child(5)').text(updatedUser.email);
+
+                        // Đóng modal
+                        modal.modal('hide');
+                        
+                        // Hiển thị thông báo thành công
+                        displayAlert(`Đã cập nhật thông tin người dùng <strong>${updatedUser.fullname}</strong> thành công`, true);
+                    })
+                    .catch(error => {
+                        console.error('Update error:', error);
+                        const errorMessage = error.response?.data?.message || 'Có lỗi xảy ra khi cập nhật';
+                        modal.find('.alert-danger')
+                            .text(errorMessage)
+                            .show();
+                    });
+            });
+
+        })
+    </script>
+
+</body>
+
+</html>

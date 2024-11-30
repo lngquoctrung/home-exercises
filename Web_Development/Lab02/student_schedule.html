@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Schedule Table</title>
+    <link rel="stylesheet" href="./styles/student_schedule.css">
+</head>
+<body>
+    <div class="header">
+        <h3>student schedule</h3>
+    </div>
+    <div class="main">
+        <table class="table">
+            <tr class="tb__row">
+                <td class="tb__cell tb__col-header">Day/Period</td>
+                <td class="tb__cell tb__col-header">I</td>
+                <td class="tb__cell tb__col-header">II</td>
+                <td class="tb__cell tb__col-header tb__cell--kl-bg" rowspan="8">lunch</td>
+                <td class="tb__cell tb__col-header">III</td>
+                <td class="tb__cell tb__col-header">IV</td>
+            </tr>
+            <tr class="tb__row">
+                <td class="tb__cell tb__row-header">Monday</td>
+                <td class="tb__cell">Math</td>
+                <td class="tb__cell">Physics</td>
+                <td class="tb__cell tb__empty" rowspan="2" colspan="2"></td>
+            </tr>
+            <tr class="tb__row">
+                <td class="tb__cell tb__row-header">Tuesday</td>
+                <td class="tb__cell tb__cell--kl-bg" colspan="2">LAB</td>
+            </tr>
+            <tr class="tb__row">
+                <td class="tb__cell tb__row-header">Wednesday</td>
+                <td class="tb__cell">History</td>
+                <td class="tb__cell">Music</td>
+                <td class="tb__cell" colspan="2">SEMINAR</td>
+            </tr>
+            <tr class="tb__row">
+                <td class="tb__cell tb__row-header">Thursday</td>
+                <td class="tb__cell">Physical Education</td>
+                <td class="tb__cell">Swimming</td>
+                <td class="tb__cell">Chemistry</td>
+                <td class="tb__cell">Biology</td>
+            </tr>
+            <tr class="tb__row">
+                <td class="tb__cell tb__row-header">Friday</td>
+                <td class="tb__cell tb__cell--kl-bg" colspan="2">LAB</td>
+                <td class="tb__cell">Geography</td>
+                <td class="tb__cell">Informatics</td>
+            </tr>
+            <tr class="tb__row">
+                <td class="tb__cell tb__row-header">Saturday</td>
+                <td class="tb__cell">Math</td>
+                <td class="tb__cell">Physics</td>
+                <td class="tb__cell tb__cell--kl-bg" colspan="2">LAB</td>
+            </tr>
+            <tr class="tb__row">
+                <td class="tb__cell tb__row-header">Sunday</td>
+                <td class="tb__cell tb__empty" colspan="2"></td>
+                <td class="tb__cell tb__empty"></td>
+                <td class="tb__cell">Homework</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

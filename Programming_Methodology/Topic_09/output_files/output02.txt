@@ -1,0 +1,5 @@
+Length of "Print to the console: "enter a filename:"." = 42
+Length of "Read a string from the console for the filename." = 48
+Length of "Print a menu of the algorithms you implemented, having each represented by a letter or number." = 94
+Length of "Print to the console: "choose one of these search algorithms:"." = 63
+Length of "Read a letter or number indicating the algorithm" = 48

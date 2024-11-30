@@ -1,0 +1,35 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, sans-serif;
+}
+
+body{
+    background-color: #DCDCDC;
+}
+
+#chat{
+    background-color: white;
+    border-radius: 15px;
+    height: 600px;
+    margin: auto;
+    max-width: 50%;
+    overflow-y: scroll;
+    padding: 20px;
+}
+
+.hoder{
+    border-radius: 10px;
+    background-color: #E5E5EA;
+    margin-bottom: 5px;
+    max-width: 50%;
+    padding: 10px;
+}
+
+.me{
+    color: white;
+    background-color: #01BF41;
+    max-width: 50%;
+    margin-left: auto;
+}

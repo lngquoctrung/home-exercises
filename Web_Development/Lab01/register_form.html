@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form</title>
+    <style>
+        .table .table__cell{
+            padding-left: 10px;
+            padding-right: 10px;
+            vertical-align: top;
+        }
+
+        .form__input{
+            display: block;
+            padding: 2px 3px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post" class="form">
+        <table class="table">
+            <tr>
+                <td class="table__cell">Your name</td>
+                <td class="table__cell"><input type="text" name="name" placeholder="Full Name" class="form__input"></td>
+            </tr>
+            <tr>
+                <td class="table__cell">Email Address</td>
+                <td class="table__cell"><input type="email" name="email" placeholder="Email" class="form__input"></td>
+            </tr>
+            <tr>
+                <td class="table__cell">Birthday</td>
+                <td class="table__cell"><input type="date" name="birthday" class="form__input"></td>
+            </tr>
+            <tr>
+                <td class="table__cell">Birthtime</td>
+                <td class="table__cell"><input type="time" name="birthtime" class="form__input"></td>
+            </tr>
+            <tr>
+                <td class="table__cell">Gender</td>
+                <td class="table__cell">
+                    <input type="radio" name="gender" id="gender" value="male">
+                    <label for="gender">Male</label>
+                    <input type="radio" name="gender" id="gender" value="female">
+                    <label for="gender">Female</label>
+                </td>
+            </tr>
+            <tr>
+                <td class="table__cell">From</td>
+                <td class="table__cell">
+                    <select name="country" class="form__input">
+                        <option value="none">Select a country</option>
+                        <optgroup label="Asia">
+                            <option value="vietnam">Vietnam</option>
+                            <option value="laos">Laos</option>
+                            <option value="cambodia">Cambodia</option>
+                            <option value="singapore">Singapore</option>
+                        </optgroup>
+                        <optgroup label="Europe">
+                            <option value="france">France</option>
+                            <option value="belgium">Belgium</option>
+                            <option value="italy">Italy</option>
+                            <option value="finland">Finland</option>
+                            <option value="ireland">Ireland</option>
+                        </optgroup>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="table__cell">Favorite IDE</td>
+                <td class="table__cell">
+                    <div>
+                        <input type="checkbox" name="favorite_ide[]" id="favorite_ide" value="vs_code">
+                        <label for="favorite_ide">Visual Studio Code</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="favorite_ide[]" id="favorite_ide" value="sub_text">
+                        <label for="favorite_ide">Sublime Text</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="favorite_ide[]" id="favorite_ide" value="eclipse">
+                        <label for="favorite_ide">Eclipse</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="favorite_ide[]" id="favorite_ide" value="atom">
+                        <label for="favorite_ide">Atom</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="favorite_ide[]" id="favorite_ide" value="intelij_idea">
+                        <label for="favorite_ide">Intelij Idea</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="table__cell">TOEIC Score</td>
+                <td class="table__cell">
+                    <input type="range" name="toeic" min="5" max="990" step="5" class="form__input">
+                </td>
+            </tr>
+            <tr>
+                <td class="table__cell">Message</td>
+                <td class="table__cell">
+                    <textarea name="message" class="form__input" rows="5"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="table__cell"></td>
+                <td class="table__cell">
+                    <button type="submit">Register</button>
+                    <button type="reset">Again</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Danh sách sản phẩm</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container my-3">
+        <h4 class="text-primary">Danh sách sản phẩm</h4>
+        <a class="btn btn-success btn-sm my-2" href="/add">Thêm sản phẩm</a>
+        <p>Chọn một sản phẩm cụ thể để xem chi tiết</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% let i = 1; %>
+                <% productList.forEach((product) => { %>
+                    <tr id="<%= product.id %>">
+                        <td><%= i++ %></td>
+                        <td><a href="/<%= product.id %>"><%= product.name %></a></td>
+                        <td><%= product.price %></td>
+                        <td>
+                            <a href="/edit/<%= product.id %>">Chỉnh sửa</a> |
+                            <a class="delete-link" href="/delete">Xóa</a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal sử dụng để confirm xoá item -->
+    <div class="modal" tabindex="-1" id="confirmDelete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xoá sản phẩm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger px-4">Xoá</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.delete-link').click(function(event) {
+                // Chặn chuyển hướng page
+                event.preventDefault();
+                // Lấy thông tin product thông qua thẻ cha `tr` của thẻ <a>
+                const productID = $(this).closest('tr').attr('id');
+                const productName = $(this).closest('tr').find('td:nth-child(2)').text()
+                
+                // Hiển thị modal để confirm xoá
+                $('#confirmDelete .modal-body p')
+                    .html('Bạn có chắc chắn muốn xóa sản phẩm "<strong>' + productName + '</strong>" không?');
+                // Truyền dữ liệu về id sản phẩm để thực hiện xoá
+                $('#confirmDelete .modal-footer .btn-danger').data('product-id', productID);
+                $('#confirmDelete').modal('show');
+            });
+
+
+            // Xác nhận xoá
+            $('#confirmDelete .modal-footer .btn-danger').on('click', function(){
+                const productID = $(this).data('product-id');
+                $.ajax({
+                    url: 'http://localhost:5050/delete',
+                    method: 'POST',
+                    data: { id: productID },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            // Xóa hàng tương ứng khỏi bảng
+                            $('tr#' + productID).remove();
+                            // Cập nhật số thứ tự
+                            $('tbody tr').each(function(index) {
+                                $(this).find('td:first').text(index + 1);
+                            });
+                            // Hiển thị thông báo thành công
+                            toastr.success(response.message);
+                        } else {
+                            // Hiển thị thông báo lỗi
+                            toastr.error(response.message);
+                        }
+                        $('#confirmDelete').modal('hide');
+                    },
+                    error: function() {
+                        toastr.error('Có lỗi xảy ra khi xóa sản phẩm!');
+                        $('#confirmDelete').modal('hide');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Hiển thị toast thông báo -->
+    <% if (message) { %>
+        <script>
+            toastr.success("<%= message %>");
+        </script>
+    <% } %>
+</body>
+
+</html>

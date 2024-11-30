@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Yantramanav", sans-serif;
+}
+
+/*
+    Các tỷ lệ kích thước màn hình mẫu:
+       - 1/12: 8.3333%
+       - 2/12: 16.6666%
+       - 3/12: 25%
+       - 4/12: 33.3333%
+       - 5/12: 41.6666%
+       - 6/12: 50%
+       - 7/12: 58.3333%
+       - 8/12: 66.6666%
+       - 9/12: 75%
+       - 10/12: 83.3333%
+       - 11/12: 91.6666%
+       - 12/12: 100%
+*/
+.col-1{ width: 8.333%; }
+.col-2{ width: 16.666%; }
+.col-3{ width: 25%; }
+.col-4{ width: 33.333%; }
+.col-5{ width: 41.333%; }
+.col-6{ width: 50%; }
+.col-7{ width: 58.333%; }
+.col-8{ width: 66.666%; }
+.col-9{ width: 75%; }
+.col-10{ width: 83.333%; }
+.col-11{ width: 91.666%; }
+.col-12{ width: 100%; }
+
+.header{
+    background-color: #004D40;
+    padding: 20px 15px;
+    color: white;
+}
+
+.footer{
+    background-color: #455A65;
+    padding: 25px;
+    color: white;
+    text-align: center;
+    clear: both;
+}
+
+.content div{
+    float: left;
+}
+
+.menu li{
+    margin: 10px;
+    color: white;
+    background-color: #455A65;
+    padding: 15px;
+}
+
+div[class="col-5 col-s-8"]{
+    padding: 10px;
+}
+
+.aside{
+    color: white;
+    background-color: #273238;
+    padding: 10px;
+    text-align: center;
+}
+
+.aside h2{
+    margin: 15px;
+}
+
+@media screen and (max-width: 1000px) {
+    .col-s-1{ width: 8.333%; }
+    .col-s-2{ width: 16.666%; }
+    .col-s-3{ width: 25%; }
+    .col-s-4{ width: 33.333%; }
+    .col-s-5{ width: 41.333%; }
+    .col-s-6{ width: 50%; }
+    .col-s-7{ width: 58.333%; }
+    .col-s-8{ width: 66.666%; }
+    .col-s-9{ width: 75%; }
+    .col-s-10{ width: 83.333%; }
+    .col-s-11{ width: 91.666%; }
+    .col-s-12{ width: 100%; }
+}
+
+@media screen and (max-width: 720px) {
+    [class^="col-"]{
+        width: 100%;
+    }
+}

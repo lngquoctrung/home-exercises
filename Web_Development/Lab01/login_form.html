@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        .form{
+            border: 1px solid #8c8a8a;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .form a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <form action="https://web-503073.herokuapp.com/lab01/login.php" method="post">
+        <table class="form">
+            <tr>
+                <td>Email</td>
+                <td><input type="email" name="email" placeholder="email@domain.com"></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="text" name="password" placeholder="your password"></td>
+            </tr>
+            <tr>
+                <td>Remember me</td>
+                <td><input type="checkbox" name="remember"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="submit">Login</button></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Not registered? <a href="http://#">Create an account</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Forgot your password? <a href="http://#">Click here to reset</a></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
