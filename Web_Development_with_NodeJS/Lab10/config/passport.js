@@ -2,6 +2,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const UserService = require('../services/userService');
 const { accessToken, refreshToken } = require('../config/jwt');
+const bcryptjs = require('bcryptjs');
 
 // // Decide which user's data will store into session
 // passport.serializeUser((user, done) => {
@@ -41,12 +42,15 @@ passport.use(new GoogleStrategy(
             });
             // Check user whether existed in database or not
             let user = await UserService.get({ googleId: profile.id });
+            // Hash password
+            const salt = await bcryptjs.genSalt(parseInt(process.env.BCRYPTJS_SALT));
+            const hashedPass = await bcryptjs.hash(process.env.GOOGLE_PASSWORD, salt);
             // Create new user and save into database
             if(!user){
                 user = await UserService.create({
                     email: profile.emails[0].value,
                     username: profile.displayName,
-                    pass: '',
+                    pass: hashedPass,
                     refreshToken: newRefreshToken,
                     googleId: profile.id,
                 });

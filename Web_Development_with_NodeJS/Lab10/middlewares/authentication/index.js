@@ -8,8 +8,10 @@ const checkAuthenticated = (req, res) => {
     if(req.cookies.accessToken){
         try{
             const decode = accessToken.verify(req.cookies.accessToken);
-            req.email = decode.email;
-            req.username = decode.username;
+            req.flash('user', {
+                email: decode.email,
+                username: decode.username
+            });
             return true;
         }
         catch(error){
@@ -23,6 +25,10 @@ const checkAuthenticated = (req, res) => {
                         username: decode.username,
                     });
                     res.cookie('accessToken', newAccessToken, cookieConfig.accessToken);
+                    req.flash('user', {
+                        email: decode.email,
+                        username: decode.username
+                    });
                     return true;
                 }
                 // Refresh token is invalid
@@ -35,6 +41,12 @@ const checkAuthenticated = (req, res) => {
     }
     // Check session if user without remember me
     if(!req.session.user) return false;
+    else{
+        req.flash('user', {
+            email: req.session.user.email,
+            username: req.session.user.username
+        });
+    }
     return true;
 }
 

@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     if(!errors.isEmpty()){
         // Send error to display
         const authPath = req.originalUrl.split('/')[2];
-        req.flash("errors", errors.array());
+        req.flash("errorMsg", errors.array()[0].msg);
         req.flash("formData", req.body);
         return res.redirect(`/${authPath}`);
     }

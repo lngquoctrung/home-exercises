@@ -41,8 +41,13 @@ app.use(session({
 }));
 app.use(flash());
 app.use((req, res, next) => {
-    res.locals.errors = req.flash("errors");
+    const msg = req.flash("errorMsg")[0];
+    // Get error messages from other middlewares
+    res.locals.errorMsg = msg;
+    // Get form data to keep value in rendering form
     res.locals.formData = req.flash("formData")[0];
+    res.locals.isShowErr = msg !== undefined;
+    res.locals.user = req.flash('user')[0];
     next();
 });
 app.use(passport.initialize());
@@ -56,7 +61,9 @@ app.use('/auth', require('./routers/userRouter'));
 
 // * ------- ROUTES -------
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', {
+        username: res.locals.user.username,
+    });
 });
 
 app.get('/chat', (req, res) => {
@@ -64,19 +71,17 @@ app.get('/chat', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    const isShowErr = res.locals.errors.length > 0;
     res.render('login', {
-        isShowErr: isShowErr,
-        errorMsg: res.locals.errors[0]?.msg || "",
+        isShowErr: res.locals.isShowErr,
+        errorMsg: res.locals.errorMsg || "",
         ...res.locals.formData
     });
 });
 
 app.get('/register', (req, res) => {
-    const isShowErr = res.locals.errors.length > 0;
     res.render('register', {
-        isShowErr: isShowErr,
-        errorMsg: res.locals.errors[0]?.msg || "",
+        isShowErr: res.locals.isShowErr,
+        errorMsg: res.locals.errorMsg || "",
         ...res.locals.formData
     });
 });
@@ -90,3 +95,5 @@ const server = app.listen(serverPort, serverHost, async () => {
 }).on('error', (error) => {
     console.log('Error occurred: ', error);
 });
+
+// * ------- SOCKET IO -------
