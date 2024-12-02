@@ -1,5 +1,5 @@
 const express = require('express');
-const socketIo = require('socket.io');
+const socketIO = require('socket.io');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -8,6 +8,7 @@ const passport = require('passport');
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
 const authentication = require('./middlewares/authentication');
+const socketService = require('./services/socketService');
 dotenv.config();
 require('./config/passport');
 
@@ -25,20 +26,23 @@ if(!serverHost || !serverPort){
 // * ------- INITIALIZE THE SERVER -------
 const app = express();
 app.set('view engine', 'ejs');
-
-
-// * ------- MIDDLEWARES -------
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(session({
+const cookieMiddleware = cookieParser();
+const sessionMiddleware = session({
     secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: false,
     cookie: {
+        secure: false,
         httpOnly: false,
         maxAge: 24 * 60 * 1000, // 24h
     }
-}));
+});
+
+
+// * ------- MIDDLEWARES -------
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieMiddleware);
+app.use(sessionMiddleware);
 app.use(flash());
 app.use((req, res, next) => {
     const msg = req.flash("errorMsg")[0];
@@ -57,17 +61,15 @@ app.use(authentication);
 
 // * ------- ROUTERS -------
 app.use('/auth', require('./routers/userRouter'));
+app.use('/chat', require('./routers/chatRouter'));
 
 
 // * ------- ROUTES -------
 app.get('/', (req, res) => {
     res.render('index', {
+        email: res.locals.user.email,
         username: res.locals.user.username,
     });
-});
-
-app.get('/chat', (req, res) => {
-    res.render('chat');
 });
 
 app.get('/login', (req, res) => {
@@ -97,3 +99,8 @@ const server = app.listen(serverPort, serverHost, async () => {
 });
 
 // * ------- SOCKET IO -------
+const io = socketIO(server);
+// Allow socket io to access session and cookie
+io.engine.use(sessionMiddleware);
+io.engine.use(cookieMiddleware);
+socketService(io);

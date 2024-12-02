@@ -25,10 +25,23 @@ class UserService {
         }
     }
 
+    // Get user protected
+    static protectedGet = async (filter) => {
+        try{
+            const user = await User.findOne(filter).select('-pass -refreshToken -googleId -__v');
+            if(user) return user;
+            return;
+        }
+        catch(error){
+            throw error;
+        }
+    }
+
     // Update user
     static update = async (filter, update) => {
         try{
-            const updatedUser = await User.findOneAndUpdate(filter, update, { new: true });
+            const updatedUser = await User.findOneAndUpdate(filter, update, { new: true })
+                                    .select('-_id -pass -refreshToken -googleId -__v');
             if(updatedUser) return updatedUser;
             return;
         }

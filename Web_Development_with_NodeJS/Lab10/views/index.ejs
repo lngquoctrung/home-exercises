@@ -7,19 +7,22 @@
     <head>
         <meta charset="UTF-8" />
         <title>Danh sách người dùng</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+        />
         <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         />
         <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css    "
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
         />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <!-- <script src="/socket.io/socket.io.js"></script> -->
+        <script src="/socket.io/socket.io.js"></script>
         <style>
             * {
                 box-sizing: border-box;
@@ -87,6 +90,24 @@
                 font-weight: 450;
                 transition: 0.3s;
             }
+
+            .user.offline {
+                opacity: 0.5; /* Blur */
+                pointer-events: none; /* Disable all mouse events, including hover */
+            }
+
+            .user.offline:hover {
+                background-color: transparent; /* No hover effect */
+            }
+
+            .user.offline .avatar {
+                background-color: gray; /* Avatar background color when offline */
+            }
+
+            .user.offline .user-name,
+            .user.offline .online {
+                color: rgb(169, 169, 169); /* Light text color when offline */
+            }
         </style>
     </head>
 
@@ -97,93 +118,29 @@
                     <div class="rounded border mt-1 mb-3">
                         <div class="d-flex px-4 mt-3">
                             <h4><%= locals.username %></h4>
-                            <button class="btn btn-success ml-auto" type="button" onclick="handleLogout()">Logout</button>
+                            <button
+                                class="btn btn-success ml-auto"
+                                type="button"
+                                onclick="handleLogout()"
+                            >
+                                Logout
+                            </button>
                         </div>
                         <h4 class="text-primary text-center my-3">
                             Danh sách người dùng trực tuyến
                         </h4>
                         <p style="padding: 0 24px">
                             Số người online:
-                            <strong class="badge badge-danger badge-pill"
+                            <strong
+                                id="num-of-users"
+                                class="badge badge-danger badge-pill"
                                 >5</strong
                             >
                         </p>
-                        <div class="people">
-                            <div class="user">
-                                <div class="avatar">C</div>
-                                <div class="user-info">
-                                    <div class="user-name">Phạm Công Chánh</div>
-                                    <div class="online">
-                                        Truy cập lúc: 16:45'
-                                    </div>
-                                </div>
-                                <div class="status">
-                                    <div class="badge badge-success badge-pill">
-                                        Đang rảnh
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="user">
-                                <div class="avatar">D</div>
-                                <div class="user-info">
-                                    <div class="user-name">Vũ Đình Duy</div>
-                                    <div class="online">
-                                        Truy cập lúc: 16:45'
-                                    </div>
-                                </div>
-                                <div class="status">
-                                    <div class="badge badge-success badge-pill">
-                                        Đang rảnh
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="user">
-                                <div class="avatar">K</div>
-                                <div class="user-info">
-                                    <div class="user-name">Trần Vũ Khoa</div>
-                                    <div class="online">
-                                        Truy cập lúc: 16:45'
-                                    </div>
-                                </div>
-                                <div class="status">
-                                    <div class="badge badge-warning badge-pill">
-                                        Đang bận
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="user">
-                                <div class="avatar">P</div>
-                                <div class="user-info">
-                                    <div class="user-name">Quách Phạm</div>
-                                    <div class="online">
-                                        Truy cập lúc: 16:45'
-                                    </div>
-                                </div>
-                                <div class="status">
-                                    <div class="badge badge-success badge-pill">
-                                        Đang rảnh
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="user">
-                                <div class="avatar">K</div>
-                                <div class="user-info">
-                                    <div class="user-name">Lê Duy Khang</div>
-                                    <div class="online">
-                                        Truy cập lúc: 16:45'
-                                    </div>
-                                </div>
-                                <div class="status">
-                                    <div class="badge badge-warning badge-pill">
-                                        Đang bận
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div
+                            id="people"
+                            class="people"
+                        ></div>
                     </div>
                     <p class="small">
                         Danh sách này cần được cập nhật tự động mỗi khi có người
@@ -201,27 +158,123 @@
 
             <div
                 id="online-notification"
-                class="alert alert-success d-inline position-fixed small"
-                style="bottom: 20px; left: 20px"
+                class="alert alert-success position-fixed small"
+                style="bottom: 20px; left: 20px;"
             >
                 <strong>Trần Quang Trí</strong> vừa mới online
             </div>
             <div
                 id="offline-notification"
-                class="alert alert-danger d-inline position-fixed small"
+                class="alert alert-danger position-fixed small"
                 style="bottom: 20px; right: 20px"
             >
                 <strong>Trần Quang Trí</strong> đã thoát khỏi ứng dụng
             </div>
-
-            <script>
-                // const socket = io();
-                const handleLogout = async () => {
-                    const response = await fetch('http://127.0.0.1:5000/auth/logout', { method: 'POST' });
-                    if(response.status === 200 && response.ok)
-                        window.location.replace('/login');
-                }
-            </script>
         </div>
+
+        <script>
+            // Socket IO
+            const socket = io();
+            const email = "<%= locals.email %>";
+            // Check and store connection status
+            const lastConnectionKey = `last_connection`;
+
+            const handleLogout = async () => {
+                const response = await fetch(
+                    "http://127.0.0.1:5000/auth/logout",
+                    { method: "POST" }
+                );
+                if (response.status === 200 && response.ok)
+                    window.location.replace("/login");
+            };
+
+            // Display notification message
+            const displayMessage = (id, msg) => {
+                const toastMsg = $(`#${id}`);
+                toastMsg.html(msg);
+                toastMsg.fadeIn(2000);
+                setTimeout(() => {
+                    toastMsg.fadeOut(1000);
+                }, 1000);
+            }
+
+            // Display toast message when user connected
+            const handleConnect = (user) => {
+                // Check last connection time
+                const lastConnection = localStorage.getItem(lastConnectionKey);
+                // If there is no recent connection
+                if (!lastConnection) {
+                    const msg = `<strong>${user.username}</strong> vừa mới online`
+                    displayMessage('online-notification', msg);
+                }
+                // Save current connection time
+                localStorage.setItem(lastConnectionKey, Date.now().toString());
+            }
+
+            const handleDisconnect = (user) => {
+                const msg = `<strong>${user.username}</strong> đã thoát khỏi ứng dụng`
+                displayMessage('offline-notification', msg);
+                // Remove current connection time when user log out
+                localStorage.removeItem(lastConnectionKey);
+            }
+
+            const displayUser = (user) => {
+                const userDiv = $('<div></div>');
+                userDiv.addClass(`user ${user.status !== 'online' ? 'offline' : ''}`.trim());
+                userDiv.html(`
+                    <div class="avatar">${user.username.charAt(0).toUpperCase()}</div>
+                    <div class="user-info">
+                        <div class="user-name">${user.username}</div>
+                        <div class="online">
+                            ${
+                                user.status === 'online' ? 
+                                    `Truy cập lúc: ${user.onlineAt}` : 
+                                    `Đăng xuất lúc: ${user.offlineAt}`
+                            }
+                        </div>
+                    </div>
+                    <div class="status">
+                        <div class="badge ${user.status === 'online' ? 'badge-success' : 'badge-warning'} badge-pill">
+                            ${user.status === 'online' ? 'Đang rảnh' : 'Đang bận'}
+                        </div>
+                    </div>
+                `);
+                // Only chat when user online
+                if(user.status === 'online'){
+                    userDiv.on('click', () => {
+                        window.location.href = `/chat/${user.email}`;
+                    });
+                }
+                $('#people').append(userDiv);
+            }
+
+            const handleDisplayUsers = (users) => {
+                console.log(email);
+                // Clear child elements
+                $('#people').empty();
+                const otherUsers = users.filter(u => u.email !== email);
+                // Display the number of online users
+                const otherOnlineUsers = otherUsers.filter(u => u.status === 'online');
+                $('#num-of-users').text(otherOnlineUsers.length);
+                // Display the list of users
+                otherUsers.forEach(user => {
+                    displayUser(user);
+                });
+            }
+
+            // All document is ready === window.onload
+            $(document).ready(() => {
+                // Hide toast message
+                $('#online-notification').hide();
+                $('#offline-notification').hide();
+
+                // Catch event user connect to the server
+                socket.on('user-connect', handleConnect);
+                // Catch event user disconnect to the server
+                socket.on('user-disconnect', handleDisconnect);
+                // Display the list of users
+                socket.on('users', handleDisplayUsers);
+            });
+        </script>
     </body>
 </html>

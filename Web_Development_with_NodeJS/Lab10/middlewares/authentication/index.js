@@ -5,7 +5,7 @@ const authPaths = ['login', 'register', 'google'];
 
 const checkAuthenticated = (req, res) => {
     // Check accessToken if user click remember me
-    if(req.cookies.accessToken){
+    if(req.cookies.accessToken || req.cookies.refreshToken){
         try{
             const decode = accessToken.verify(req.cookies.accessToken);
             req.flash('user', {

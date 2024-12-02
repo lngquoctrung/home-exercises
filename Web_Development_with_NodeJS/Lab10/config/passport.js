@@ -53,6 +53,7 @@ passport.use(new GoogleStrategy(
                     pass: hashedPass,
                     refreshToken: newRefreshToken,
                     googleId: profile.id,
+                    status: 'online'
                 });
             }
             // Update refresh token when user login again

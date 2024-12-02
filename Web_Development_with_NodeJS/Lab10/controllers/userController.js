@@ -92,6 +92,7 @@ const register = async (req, res) => {
         pass: hashedPass,
         refreshToken: newRefreshToken || '',
         googleId: '',
+        status: 'online'
     });
     req.flash('user', {
         email: newUser.email,
