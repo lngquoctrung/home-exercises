@@ -1,0 +1,85 @@
+services:
+    product-service:
+        build: ./product-service
+        container_name: product-service
+        ports:
+            - "3001:3001"
+        networks:
+            - microservices-net
+
+    product-service-backup:
+        build: ./product-service
+        container_name: product-service-backup
+        ports:
+            - "3002:3001"
+        networks:
+            - microservices-net
+
+    user-service:
+        build: ./user-service
+        container_name: user-service
+        ports:
+            - "3003:3002"
+        networks:
+            - microservices-net
+
+    user-service-backup:
+        build: ./user-service
+        container_name: user-service-backup
+        ports:
+            - "3004:3002"
+        networks:
+            - microservices-net
+
+    auth-service:
+        build: ./auth-service
+        container_name: auth-service
+        ports:
+            - "3005:3003"
+        networks:
+            - microservices-net
+    
+    auth-service-backup:
+        build: ./auth-service
+        container_name: auth-service-backup
+        ports:
+            - "3006:3003"
+        networks:
+            - microservices-net
+
+    frontend-service:
+        build: ./frontend-service
+        container_name: frontend-service
+        ports:
+            - "3007:3004"
+        networks:
+            - microservices-net
+
+    frontend-service-backup:
+        build: ./frontend-service
+        container_name: frontend-service-backup
+        ports:
+            - "3008:3004"
+        networks:
+            - microservices-net
+
+    haproxy:
+        image: haproxy:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./haproxy:/usr/local/etc/haproxy:ro
+        networks:
+            - microservices-net
+        depends_on:
+            - product-service
+            - product-service-backup
+            - user-service
+            - user-service-backup
+            - auth-service
+            - auth-service-backup
+            - frontend-service
+            - frontend-service-backup
+
+networks:
+    microservices-net:
